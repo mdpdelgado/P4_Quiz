@@ -1,12 +1,21 @@
 
 const readline = require('readline');
 
-console.log("CORE Quiz");
+const model = require('./model');
+
+const {log, biglog, errorlog, colorize} = require("./out");
+
+const cmds = require("./cmds");
+
+
+//Mensaje inicial
+biglog('CORE Quiz', 'green');
+
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: 'quiz> ',
+  prompt: colorize('quiz> ', 'blue'),
   completer: (line) => {
   const completions = 'h help add delete edit list test p play credits q quit'.split(' ');
   const hits = completions.filter((c) => c.startsWith(line));
@@ -30,50 +39,50 @@ rl
    
     	case 'help':
     	case 'h':
-    		helpCmd();	
+    		cmds.helpCmd(rl);
     		break;
 
     	case 'quit':
     	case 'q':
-    		quitCmd();
+            cmds.quitCmd(rl);
     		break;
 
     	case 'add':
-    		addCmd();
+            cmds.addCmd(rl);
     		break;
 
     	case 'list':
-    		listCmd();
+            cmds.listCmd(rl);
     		break;
 
     	case 'show':
-    		showCmd(args[1]);
+            cmds.showCmd(rl, args[1]);
     		break;
 
     	case 'test':
-    		testCmd(args[1]);
+            cmds.testCmd(rl, args[1]);
     		break;
 
     	case 'play':
     	case 'p':
-    		playCmd();
+            cmds.playCmd(rl);
     		break;
 
     	case 'delete':
-    		deleteCmd(args[1]);
+            cmds.deleteCmd(rl, args[1]);
     		break;
 
    		case 'edit':
-   			editCmd(args[1]);
+            cmds.editCmd(rl, args[1]);
    			break;
 
    		case 'credits':
-   			creditsCmd();
+            cmds.creditsCmd(rl);
   			break;
 
     	default:
-      		console.log(`Comando desconocido: '${cmd}'`);
-      		console.log("Use help para ver todos los comandos disponibles");
+      		console.log(`Comando desconocido: '${colorize(cmd, 'red')}'`);
+      		console.log(`Use ${colorize('help', 'green')} para ver todos los comandos disponibles`);
       		rl.prompt();
       		break;
  	 }
@@ -81,67 +90,6 @@ rl
 })
 
 .on('close', () => {
-  console.log('Adios!');
+  log('Adios!');
   process.exit(0);
 });
-
-
-const helpCmd = () =>{
-	console.log("Comandos:");
-  console.log("  h|help - Muestra esta ayuda");
- 	console.log("  list - Listar los quizzes existentes");
- 	console.log("  show<id> - Muestra la pregunta y la respuesta del quiz indicado");
-  console.log("  add - Añadir un nuevo quiz interactivamente");
-  console.log("  delete <id> - borra el quiz indicado");
- 	console.log("  edit <id> - editar el quiz indicado");
- 	console.log("  test <id> - probar el quiz indicado");
- 	console.log("  p|play - jugar a preguntar aleatoriamente todos los quizzes");
- 	console.log("  credits - créditos");
-  console.log("  q|quit - salir del programa");
-  rl.prompt();
-};
-
-const quitCmd = () => {
-	rl.close();
-};
-
-const addCmd = () => {
-	console.log("añadir un nuevo quiz");
-	rl.prompt();
-};
-
-const listCmd = () => {
-	console.log('listar todos los quizzes existentes');
-	rl.prompt();
-};
-
-const showCmd = id => {
-	console.log('mostrar el quiz indicado');
-	rl.prompt();
-};
-
-const testCmd = id => {
-	console.log('probar el quiz indicado');
-	rl.prompt();
-};
-
-const playCmd = () => {
-	console.log("Jugar");
-	rl.prompt();
-};
-
-const deleteCmd = id => {
-	console.log('borrar el quiz indicado');
-	rl.prompt();
-};
-
-const editCmd = id => {
-	console.log('editar el quiz indicado');
-	rl.prompt();
-};
-
-const creditsCmd = () => {
-	console.log('Autores de la práctica');
-  	console.log('María del Pilar Delgado Pardo');
-  	rl.prompt();
-};
