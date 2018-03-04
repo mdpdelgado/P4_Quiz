@@ -112,6 +112,7 @@ exports.playCmd = rl => {
                 else{
                     log(`incorrecto`);
                     log(`${score}`);
+                    log(`fin`);
                     rl.prompt();
                 }
             });
@@ -165,6 +166,6 @@ exports.editCmd = (rl,id) => {
 
 exports.creditsCmd = rl => {
     log('Autores de la práctica');
-    log('María del Pilar Delgado Pardo', 'green');
+    log('Maria del Pilar Delgado Pardo', 'green');
     rl.prompt();
 };
